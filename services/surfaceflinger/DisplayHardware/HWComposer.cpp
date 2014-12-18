@@ -407,7 +407,11 @@ status_t HWComposer::queryDisplayProperties(int disp) {
     }
 
     // FIXME: what should we set the format to?
+#ifdef NATIVE_COLOR_FORMAT_PATCH
+    mDisplayData[disp].format = HAL_PIXEL_FORMAT_BGRA_8888;
+#else
     mDisplayData[disp].format = HAL_PIXEL_FORMAT_RGBA_8888;
+#endif
     mDisplayData[disp].connected = true;
     return NO_ERROR;
 }
@@ -469,7 +473,11 @@ sp<Fence> HWComposer::getDisplayFence(int disp) const {
 
 uint32_t HWComposer::getFormat(int disp) const {
     if (uint32_t(disp)>31 || !mAllocatedDisplayIDs.hasBit(disp)) {
+#ifdef NATIVE_COLOR_FORMAT_PATCH
+        return HAL_PIXEL_FORMAT_BGRA_8888;
+#else
         return HAL_PIXEL_FORMAT_RGBA_8888;
+#endif
     } else {
         return mDisplayData[disp].format;
     }
@@ -830,7 +838,11 @@ int HWComposer::getVisualID() const {
         // FIXME: temporary hack until HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED
         // is supported by the implementation. we can only be in this case
         // if we have HWC 1.1
+#ifdef NATIVE_COLOR_FORMAT_PATCH
+        return HAL_PIXEL_FORMAT_BGRA_8888;
+#else
         return HAL_PIXEL_FORMAT_RGBA_8888;
+#endif
         //return HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED;
     } else {
         return mFbDev->format;
@@ -1291,7 +1303,11 @@ bool HWComposer::VSyncThread::threadLoop() {
 HWComposer::DisplayData::DisplayData()
 :   configs(),
     currentConfig(0),
+#ifdef NATIVE_COLOR_FORMAT_PATCH
+    format(HAL_PIXEL_FORMAT_BGRA_8888),
+#else
     format(HAL_PIXEL_FORMAT_RGBA_8888),
+#endif
     connected(false),
     hasFbComp(false), hasOvComp(false),
     capacity(0), list(NULL),

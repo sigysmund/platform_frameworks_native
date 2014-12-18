@@ -39,6 +39,15 @@ LOCAL_CFLAGS_mips += -mno-check-zero-division
 # we need to access the private Bionic header <bionic_tls.h>
 LOCAL_C_INCLUDES += bionic/libc/private
 
+# Include native color format header path
+ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
+LOCAL_CFLAGS += -DNATIVE_COLOR_FORMAT_PATCH
+ifeq ($(TARGET_SOC),exynos4x12)
+LOCAL_C_INCLUDES += \
+	$(TOP)/hardware/samsung_slsi/exynos4/include
+endif
+endif # ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
+
 LOCAL_MODULE_RELATIVE_PATH := egl
 LOCAL_MODULE:= libGLES_android
 

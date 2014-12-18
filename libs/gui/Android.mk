@@ -56,6 +56,15 @@ ifeq ($(TARGET_BOARD_PLATFORM), tegra3)
 	LOCAL_CFLAGS += -DDONT_USE_FENCE_SYNC
 endif
 
+# Include native color format header path
+ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
+LOCAL_CFLAGS += -DNATIVE_COLOR_FORMAT_PATCH
+ifeq ($(TARGET_SOC),exynos4x12)
+LOCAL_C_INCLUDES += \
+	$(TOP)/hardware/samsung_slsi/exynos4/include
+endif
+endif # ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
+
 include $(BUILD_SHARED_LIBRARY)
 
 ifeq (,$(ONE_SHOT_MAKEFILE))

@@ -312,7 +312,12 @@ sp<GraphicBuffer> GLConsumer::getDebugTexImageBuffer() {
         // The first time, create the debug texture in case the application
         // continues to use it.
         sp<GraphicBuffer> buffer = new GraphicBuffer(
-                kDebugData.width, kDebugData.height, PIXEL_FORMAT_RGBA_8888,
+                kDebugData.width, kDebugData.height,
+#ifdef NATIVE_COLOR_FORMAT_PATCH
+                PIXEL_FORMAT_BGRA_8888,
+#else
+                PIXEL_FORMAT_RGBA_8888,
+#endif
                 GraphicBuffer::USAGE_SW_WRITE_RARELY);
         uint32_t* bits;
         buffer->lock(GraphicBuffer::USAGE_SW_WRITE_RARELY, reinterpret_cast<void**>(&bits));
