@@ -1010,6 +1010,20 @@ static config_pair_t const config_7_attribute_list[] = {
         { EGL_SURFACE_TYPE,     EGL_WINDOW_BIT|EGL_PBUFFER_BIT|EGL_PIXMAP_BIT },
 };
 
+#ifdef NATIVE_COLOR_FORMAT_PATCH
+/* 32-bit BGRA */
+static config_pair_t const config_8_attribute_list[] = {
+	 { EGL_BUFFER_SIZE,     32 },
+	 { EGL_ALPHA_SIZE,       8 },
+	 { EGL_GREEN_SIZE,       8 },
+	 { EGL_RED_SIZE,         8 },
+	 { EGL_DEPTH_SIZE,       0 },
+	 { EGL_CONFIG_ID,        2 },
+	 { EGL_NATIVE_VISUAL_ID, GGL_PIXEL_FORMAT_BGRA_8888 },
+	 { EGL_SURFACE_TYPE,     EGL_WINDOW_BIT|EGL_PBUFFER_BIT|EGL_PIXMAP_BIT },
+  };
+#endif
+
 static configs_t const gConfigs[] = {
         { config_0_attribute_list, NELEM(config_0_attribute_list) },
         { config_1_attribute_list, NELEM(config_1_attribute_list) },
@@ -1019,6 +1033,9 @@ static configs_t const gConfigs[] = {
         { config_5_attribute_list, NELEM(config_5_attribute_list) },
         { config_6_attribute_list, NELEM(config_6_attribute_list) },
         { config_7_attribute_list, NELEM(config_7_attribute_list) },
+#ifdef NATIVE_COLOR_FORMAT_PATCH
+        { config_8_attribute_list, NELEM(config_8_attribute_list) },
+#endif
 };
 
 static config_management_t const gConfigManagement[] = {
@@ -1101,6 +1118,12 @@ static status_t getConfigFormatInfo(EGLint configID,
         pixelFormat = GGL_PIXEL_FORMAT_A_8;
         depthFormat = GGL_PIXEL_FORMAT_Z_16;
         break;
+#ifdef NATIVE_COLOR_FORMAT_PATCH
+    case 8:
+        pixelFormat = GGL_PIXEL_FORMAT_BGRA_8888;
+        depthFormat = 0;
+        break;
+#endif
     default:
         return NAME_NOT_FOUND;
     }

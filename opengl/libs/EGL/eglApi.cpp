@@ -450,14 +450,25 @@ EGLSurface eglCreateWindowSurface(  EGLDisplay dpy, EGLConfig config,
             }
         }
 #else
+
+#  ifdef NATIVE_COLOR_FORMAT_PATCH
+        EGLint format = HAL_PIXEL_FORMAT_BGRA_8888;
+#  elif
         // by default, just pick RGBA_8888
         EGLint format = HAL_PIXEL_FORMAT_RGBA_8888;
+#  endif
 
         EGLint a = 0;
         cnx->egl.eglGetConfigAttrib(iDpy, config, EGL_ALPHA_SIZE, &a);
         if (a > 0) {
-            // alpha-channel requested, there's really only one suitable format
-            format = HAL_PIXEL_FORMAT_RGBA_8888;
+
+#  ifdef NATIVE_COLOR_FORMAT_PATCH
+        	format = HAL_PIXEL_FORMAT_BGRA_8888;
+#  elif
+        	// alpha-channel requested, there's really only one suitable format
+        	format = HAL_PIXEL_FORMAT_RGBA_8888;
+#  endif
+
         } else {
             EGLint r, g, b;
             r = g = b = 0;
@@ -468,7 +479,13 @@ EGLSurface eglCreateWindowSurface(  EGLDisplay dpy, EGLConfig config,
             if (colorDepth <= 16) {
                 format = HAL_PIXEL_FORMAT_RGB_565;
             } else {
-                format = HAL_PIXEL_FORMAT_RGBX_8888;
+
+#  ifdef NATIVE_COLOR_FORMAT_PATCH
+            	format = HAL_PIXEL_FORMAT_BGRA_8888;
+#  elif
+            	format = HAL_PIXEL_FORMAT_RGBX_8888;
+#  endif
+
             }
         }
 
