@@ -78,6 +78,11 @@
 #include "RenderEngine/RenderEngine.h"
 #include <cutils/compiler.h>
 
+// Samsung support
+#if defined(BOARD_USES_HDMI)
+#  include "SecTVOutService.h"
+#endif
+
 #define DISPLAY_COUNT       1
 
 /*
@@ -171,6 +176,11 @@ SurfaceFlinger::SurfaceFlinger()
     }
     ALOGI_IF(mDebugRegion, "showupdates enabled");
     ALOGI_IF(mDebugDDMS, "DDMS debugging enabled");
+
+#if defined(BOARD_USES_HDMI)
+    ALOGD(">>> Run hdmi service");
+    android::SecTVOutService::instantiate();
+#endif
 }
 
 void SurfaceFlinger::onFirstRef()
