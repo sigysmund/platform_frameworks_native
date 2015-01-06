@@ -47,6 +47,13 @@
 #include "../Layer.h"           // needed only for debugging
 #include "../SurfaceFlinger.h"
 
+// Samsung support
+#if defined(BOARD_USES_HDMI)
+#  include "SecHdmiClient.h"
+#  include "SecTVOutService.h"
+#  include "SecHdmi.h"
+#endif
+
 namespace android {
 
 #define MIN_HWC_HEADER_VERSION HWC_HEADER_VERSION
@@ -836,7 +843,23 @@ bool HWComposer::supportsFramebufferTarget() const {
 
 int HWComposer::fbPost(int32_t id,
         const sp<Fence>& acquireFence, const sp<GraphicBuffer>& buffer) {
+    android::SecHdmiClient *mHdmiClient = android::SecHdmiClient::getInstance();
     if (mHwc && hwcHasApiVersion(mHwc, HWC_DEVICE_API_VERSION_1_1)) {
+#if defined(BOARD_USES_HDMI)
+	if (mHdmiClient != NULL) {
+#  ifdef SUPPORT_AUTO_UI_ROTATE
+            mHdmiClient->setHdmiRotate(0,0); //added yqf, test 12-3-19 
+#  endif
+            mHdmiClient->blit2Hdmi(getWidth(id), getHeight(id),
+                    HAL_PIXEL_FORMAT_BGRA_8888,
+                    0, 0, 0,
+                    0, 0,
+                    // TODO: Hardcoded output resolution, change
+                    1920, 1080,
+                    android::SecHdmiClient::HDMI_MODE_UI,
+                    0);
+        }
+#endif
         return setFramebufferTarget(id, acquireFence, buffer);
     } else {
         acquireFence->waitForever("HWComposer::fbPost");
