@@ -302,7 +302,19 @@ enum {
     AKEYCODE_TV_CONTENTS_MENU = 256,
     AKEYCODE_TV_MEDIA_CONTEXT_MENU = 257,
     AKEYCODE_TV_TIMER_PROGRAMMING = 258,
-    AKEYCODE_HELP            = 259
+    AKEYCODE_HELP            = 259,
+    // Nevron RC additional defines
+	AKEYCODE_SPEC_TV 		 = 260,
+	AKEYCODE_SPEC_HOTEL 	 = 261,
+	AKEYCODE_SPEC_ROOM 		 = 262,
+	AKEYCODE_SPEC_SHOP 		 = 263,
+	AKEYCODE_SPEC_SPECIAL 	 = 264,
+	AKEYCODE_SPEC_MOVIE 	 = 265,
+	AKEYCODE_SPEC_MUSIC 	 = 266,
+	AKEYCODE_SPEC_GAMES 	 = 267,
+	AKEYCODE_SPEC_MESSAGES 	 = 268,
+	AKEYCODE_SPEC_INFO 		 = 269,
+	AKEYCODE_SPEC_EPG 		 = 270
 
     // NOTE: If you add a new keycode here you must also add it to several other files.
     //       Refer to frameworks/base/core/java/android/view/KeyEvent.java for the full list.
