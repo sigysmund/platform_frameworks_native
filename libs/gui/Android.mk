@@ -61,7 +61,7 @@ ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
 LOCAL_CFLAGS += -DNATIVE_COLOR_FORMAT_PATCH
 ifeq ($(TARGET_SOC),exynos4x12)
 LOCAL_C_INCLUDES += \
-	$(TOP)/hardware/samsung_slsi/exynos4/include
+	$(TOP)/device/samsung/exynos4/include
 endif
 endif # ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
 

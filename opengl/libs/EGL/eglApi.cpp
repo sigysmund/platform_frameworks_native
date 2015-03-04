@@ -453,7 +453,7 @@ EGLSurface eglCreateWindowSurface(  EGLDisplay dpy, EGLConfig config,
 
 #  ifdef NATIVE_COLOR_FORMAT_PATCH
         EGLint format = HAL_PIXEL_FORMAT_BGRA_8888;
-#  elif
+#  else
         // by default, just pick RGBA_8888
         EGLint format = HAL_PIXEL_FORMAT_RGBA_8888;
 #  endif
@@ -464,7 +464,7 @@ EGLSurface eglCreateWindowSurface(  EGLDisplay dpy, EGLConfig config,
 
 #  ifdef NATIVE_COLOR_FORMAT_PATCH
         	format = HAL_PIXEL_FORMAT_BGRA_8888;
-#  elif
+#  else
         	// alpha-channel requested, there's really only one suitable format
         	format = HAL_PIXEL_FORMAT_RGBA_8888;
 #  endif
@@ -482,7 +482,7 @@ EGLSurface eglCreateWindowSurface(  EGLDisplay dpy, EGLConfig config,
 
 #  ifdef NATIVE_COLOR_FORMAT_PATCH
             	format = HAL_PIXEL_FORMAT_BGRA_8888;
-#  elif
+#  else
             	format = HAL_PIXEL_FORMAT_RGBX_8888;
 #  endif
 
