@@ -110,6 +110,15 @@ ifeq ($(BOARD_USES_HDMI),true)
 		device/samsung/$(TARGET_BOARD_PLATFORM)/include
 endif
 
+# Include native color format header path
+ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
+LOCAL_CFLAGS += -DNATIVE_COLOR_FORMAT_PATCH
+ifeq ($(TARGET_SOC),exynos4x12)
+LOCAL_C_INCLUDES += \
+	device/samsung/$(TARGET_BOARD_PLATFORM)/include
+endif
+endif # ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
+
 LOCAL_MODULE:= libsurfaceflinger
 
 include $(BUILD_SHARED_LIBRARY)

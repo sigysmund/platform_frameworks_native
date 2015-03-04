@@ -65,6 +65,15 @@ endif
 LOCAL_REQUIRED_MODULES := $(egl.cfg_config_module)
 egl.cfg_config_module :=
 
+# Include native color format header path
+ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
+	LOCAL_CFLAGS += -DNATIVE_COLOR_FORMAT_PATCH
+	ifeq ($(TARGET_SOC),exynos4x12)
+	LOCAL_C_INCLUDES += \
+		$(TOP)/device/samsung/exynos4/include
+	endif
+endif # ifeq ($(BOARD_FIX_NATIVE_COLOR_FORMAT), true)
+
 include $(BUILD_SHARED_LIBRARY)
 
 ###############################################################################
